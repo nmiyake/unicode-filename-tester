@@ -24,6 +24,46 @@ Run with verbose output:
 unicode-filename-tester -v
 ```
 
+Sample output
+-------------
+Linux (succes):
+
+```
+$ unicode-filename-tester -v
+Number of files:
+	Expected: 2
+	Got:      2
+Files:
+	Expected: [ö.txt ö.txt]
+	Got:      [ö.txt ö.txt]
+Content of ö.txt (\u00F6.txt):
+	Expected: composed
+	Got:      composed
+Content of ö.txt (\u006F\u0308.txt):
+	Expected: decomposed
+	Got:      decomposed
+Success: Unicode file names were not normalized
+```
+
+MacOS (failure):
+
+```
+$ unicode-filename-tester -v
+Number of files:
+        Expected: 2
+        Got:      1
+Files:
+        Expected: [ö.txt ö.txt]
+        Got:      [ö.txt]
+Content of ö.txt (\u00F6.txt):
+        Expected: composed
+        Got:      decomposed
+Content of ö.txt (\u006F\u0308.txt):
+        Expected: decomposed
+        Got:      decomposed
+Failed: Unicode file names were normalized
+```
+
 Implementation
 --------------
 Creates a temporary directory in the working directory and attempts to write out two files: `ö.txt` (`U+00F6`) with
